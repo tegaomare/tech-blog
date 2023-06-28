@@ -1,0 +1,12 @@
+<h1>The Tech Blog</h1>
+
+<h2>Existing Blog Posts:</h2>
+{{#each posts}}
+    <h3>{{this.title}}</h3>
+    <p>Posted on {{this.createdAt}}</p>
+    <!-- Display post summary or contents -->
+    <a href="/post/{{this.id}}">Read More</a>
+{{/each}}
+<a href="/home">Home</a>
+<a href="/dashboard">Dashboard</a>
+<a href="/logout">Log Out</a>
