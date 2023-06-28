@@ -21,17 +21,9 @@ const sess = {
 
 app.use(session(sess));
 
-// Set up Express middleware
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(
-  session({ secret: "secret-key", resave: false, saveUninitialized: false })
-);
-app.engine("handlebars", exphbs());
-app.set("view engine", "handlebars");
-
-/*app.use(express.json());
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, "public")));*/
+app.use(express.static(path.join(__dirname, "public")));
 
 app.use(routes);
 
