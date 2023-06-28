@@ -1,6 +1,6 @@
 const router = require("express").Router();
 
-app.get("/", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const posts = await BlogPost.findAll();
     res.render("homepage", { posts });
@@ -10,7 +10,7 @@ app.get("/", async (req, res) => {
   }
 });
 
-app.get("/post/:id", async (req, res) => {
+router.get("/post/:id", async (req, res) => {
   try {
     const postId = req.params.id;
     const post = await BlogPost.findByPk(postId);
@@ -22,7 +22,7 @@ app.get("/post/:id", async (req, res) => {
   }
 });
 
-app.get("/dashboard", async (req, res) => {
+router.get("/dashboard", async (req, res) => {
   try {
     const userId = req.session.userId;
     const posts = await BlogPost.findAll({ where: { userId } });
