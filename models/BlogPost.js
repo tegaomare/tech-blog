@@ -7,21 +7,31 @@ class BlogPost extends Model {
   }*/
 }
 
-BlogPost.init({
-  title: {
-    type: DataTypes.STRING,
-    allowNull: false,
+BlogPost.init(
+  {
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    contents: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    creator: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+    },
   },
-  contents: {
-    type: DataTypes.TEXT,
-    allowNull: false,
-  },
-  creator: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  createdAt: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW,
-  },
-});
+  {
+    sequelize,
+    timestamps: false,
+    freezeTableName: true,
+    underscored: true,
+    modelName: " BlogPost",
+  }
+);
+module.exports = BlogPost;
