@@ -1,3 +1,6 @@
 const BlogPost = require("./BlogPost");
+const Comment = require("./Comment");
 
-module.exports = { BlogPost };
+// establish relationships
+
+module.exports = { BlogPost, Comment };
