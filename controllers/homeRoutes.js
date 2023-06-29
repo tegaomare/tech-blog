@@ -9,7 +9,7 @@ router.get("/", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
-
+/*
 router.get("/post/:id", async (req, res) => {
   try {
     const postId = req.params.id;
@@ -86,6 +86,6 @@ router.get("/post/delete/:id", async (req, res) => {
     console.error(error);
     res.status(500).send("Internal Server Error");
   }
-});
+});*/
 
 module.exports = router;
