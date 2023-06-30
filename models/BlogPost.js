@@ -17,18 +17,9 @@ BlogPost.init(
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    creator: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-    },
   },
   {
     sequelize,
-    timestamps: false,
     freezeTableName: true,
     underscored: true,
     modelName: " BlogPost",
