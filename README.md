@@ -32,7 +32,7 @@ This is a CMS-style blog site designed specifically for developers who want to p
 
 To get started with the Tech Blog CMS, follow these steps:
 
-1. Clone the repository: git clonegit@github.com:tegaomare/tech-blog.git
+1. Clone the repository: git clone git@github.com:tegaomare/tech-blog.git
 
 2. Install the necessary dependencies: npm i
 
