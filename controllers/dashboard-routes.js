@@ -82,7 +82,10 @@ router.get("/edit/:id", withAuth, (req, res) => {
 
 //  Get new post ('/dashboard/new)
 router.get("/new", withAuth, (req, res) => {
-  res.render("new-post", { username: req.session.username });
+  res.render("new-post", {
+    loggedIn: true,
+    username: req.session.username,
+  });
 });
 
 module.exports = router;
