@@ -1,91 +1,93 @@
 const router = require("express").Router();
+const { Post, User, Comment } = require("../models");
+const sequelize = require("../config/connection");
 
+// Get all posts ('/')
 router.get("/", async (req, res) => {
   try {
-    const posts = await BlogPost.findAll();
-    res.render("homepage", { posts });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Internal Server Error");
+    // Retrieve all posts from db
+    const dbPostData = await Post.findAll({
+      attributes: ["id", "title", "content", "created_at"],
+      include: [
+        {
+          model: Comment,
+          attributes: ["id", "comment", "postId", "userId", "created_at"],
+          include: {
+            model: User,
+            attributes: ["username"],
+          },
+        },
+        {
+          model: User,
+          attributes: ["username"],
+        },
+      ],
+      order: [["created_at", "DESC"]],
+    });
+    // Serialize data retrieved
+    const posts = dbPostData.map((post) => post.get({ plain: true }));
+    console.log(posts);
+    res.render("homepage", {
+      posts,
+      loggedIn: req.session.loggedIn,
+      username: req.session.username,
+      userId: req.session.userId,
+    });
+  } catch (err) {
+    res.status(500).json(err);
   }
 });
-/*
+
+// Get single post ('/post/:id')
 router.get("/post/:id", async (req, res) => {
   try {
-    const postId = req.params.id;
-    const post = await BlogPost.findByPk(postId);
-    const comments = await Comment.findAll({ where: { postId } });
-    res.render("post_detail", { post, comments });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Internal Server Error");
+    const dbPostData = await Post.findOne({
+      where: { id: req.params.id },
+      attributes: ["id", "content", "title", "created_at"],
+      include: [
+        {
+          model: Comment,
+          attributes: ["id", "comment", "postId", "userId", "created_at"],
+          include: {
+            model: User,
+            attributes: ["username"],
+          },
+        },
+        {
+          model: User,
+          attributes: ["username"],
+        },
+      ],
+    });
+    if (dbPostData) {
+      const post = dbPostData.get({ plain: true });
+      console.log(post);
+      res.render("single-post", {
+        post,
+        loggedIn: req.session.loggedIn,
+        username: req.session.username,
+      });
+    } else {
+      res.status(404).json({ message: "This id has no post." });
+      return;
+    }
+  } catch (err) {
+    res.status(500).json(err);
   }
 });
 
-router.get("/dashboard", async (req, res) => {
-  try {
-    const userId = req.session.userId;
-    const posts = await BlogPost.findAll({ where: { userId } });
-    res.render("dashboard", { posts });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Internal Server Error");
+// Login
+router.get("/login", (req, res) => {
+  if (req.session.loggedIn) {
+    res.redirect("/");
+    return;
   }
-});
-// Create Post
-router.get("/post/create", (req, res) => {
-  res.render("create_post");
+  res.render("login");
 });
 
-router.post("/post/create", async (req, res) => {
-  const { title, contents } = req.body;
-  const userId = req.session.userId;
-  try {
-    // Create a new blog post in the database
-    await BlogPost.create({ title, contents, userId });
-    res.redirect("/dashboard");
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Internal Server Error");
-  }
+// Signup
+router.get("/signup", async (req, res) => {
+  res.render("signup");
 });
-
-// Update Post
-router.get("/post/edit/:id", async (req, res) => {
-  const postId = req.params.id;
-  try {
-    const post = await BlogPost.findByPk(postId);
-    res.render("edit_post", { post });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Internal Server Error");
-  }
-});
-
-router.post("/post/edit/:id", async (req, res) => {
-  const postId = req.params.id;
-  const { title, contents } = req.body;
-  try {
-    // Update the blog post in the database
-    await BlogPost.update({ title, contents }, { where: { id: postId } });
-    res.redirect("/dashboard");
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Internal Server Error");
-  }
-});
-
-// Delete Post
-router.get("/post/delete/:id", async (req, res) => {
-  const postId = req.params.id;
-  try {
-    // Delete the blog post from the database
-    await BlogPost.destroy({ where: { id: postId } });
-    res.redirect("/dashboard");
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Internal Server Error");
-  }
-});*/
 
 module.exports = router;
