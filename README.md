@@ -1,5 +1,7 @@
 ## Tech Blog CMS
 
+<img src="./images/webpage.png" href="webpage image">
+
 This is a CMS-style blog site designed specifically for developers who want to publish articles, blog posts, and share their thoughts and opinions on various tech topics. With this platform, you can easily create, manage, and publish content, allowing you to focus on writing and sharing your knowledge with the tech community.
 
 ## Features
@@ -55,5 +57,7 @@ https://github.com/branchwag/blogpage
 Columbia University Coding Bootcamp
 
 ## App link
+
+https://cbctech-blog-3328d1c29db1.herokuapp.com/
 
 Happy blogging!
